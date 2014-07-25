@@ -41,9 +41,9 @@ class PyLNP(object):
         self.lnp_dir = os.path.join(BASEDIR, 'LNP')
         if not os.path.isdir(self.lnp_dir):
             print('WARNING: LNP folder is missing!', file=sys.stderr)
-        self.keybinds_dir = os.path.join(self.lnp_dir, 'Keybinds')
-        self.graphics_dir = os.path.join(self.lnp_dir, 'Graphics')
-        self.utils_dir = os.path.join(self.lnp_dir, 'Utilities')
+        self.keybinds_dir = self.case_sensitive_folder('Keybinds')
+        self.graphics_dir = self.case_sensitive_folder('Graphics')
+        self.utils_dir = self.case_sensitive_folder('Utilities')
 
         self.folders = []
         self.df_dir = ''
@@ -586,6 +586,18 @@ class PyLNP(object):
                 'PyLNP V{0} extras installed!\nTime: {1}'.format(
                     VERSION, datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
             textfile.close()
+            
+    def case_sensitive_folder(self, keyword):
+        """
+        Case sensitivity for folders
+        """
+        if os.path.isdir(os.path.join(self.lnp_dir, keyword)):
+            return os.path.join(self.lnp_dir, keyword)
+        elif os.path.isdir(os.path.join(self.lnp_dir, keyword.lower())):
+            return os.path.join(self.lnp_dir, keyword.lower())
+        else:
+            print('WARNING, ' + keyword + 'Folder is missing!', file=sys.stderr)
+            
 
 def open_folder(path):
     """
