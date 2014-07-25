@@ -89,7 +89,10 @@ class PyLNP(object):
         if sys.platform == 'win32':
             self.run_program(os.path.join(self.df_dir, 'Dwarf Fortress.exe'))
         else:
-            self.run_program(os.path.join(self.df_dir, 'df'))
+            if os.path.isfile(os.path.join(self.df_dir, 'dfhack')):
+              self.run_program(os.path.join(self.df_dir, 'dfhack'))
+            else:
+              self.run_program(os.path.join(self.df_dir, 'df'))
         for prog in self.autorun:
             if os.access(os.path.join(self.utils_dir, prog), os.F_OK):
                 self.run_program(os.path.join(self.utils_dir, prog))
